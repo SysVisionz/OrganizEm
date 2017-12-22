@@ -13,19 +13,18 @@ import {
 } from './types';
 
 const createUser = (email, password, persist, dispatch) => {
-		if (persist){
+	firebase.auth().createUserWithEmailAndPassword(email, password)
+	.then((user, persist) => {
+		console.log(persist);
+		if(persist){
 			firebase.auth().setPersistence('local')
-			.then(() => {
-				firebase.auth().createUserWithEmailAndPassword(email, password)
-				.then(user => loginUserSuccess(dispatch, user))
-				.catch(() => loginUserFail(dispatch));
-			});
+			.then(user => loginUserSuccess(dispatch, user));
 		}
-		else{
-			firebase.auth().createUserWithEmailAndPassword(email, password)
-			.then(user => loginUserSuccess(dispatch, user))
-			.catch(() => loginUserFail(dispatch));
-		}
+		else
+			firebase.auth().setPersistence('none')
+			.then(() => loginUserSuccess(dispatch, user));
+	})
+	.catch(() => loginUserFail(dispatch));
 };
 
 export const updateValue = ( prop, value ) => {
@@ -39,45 +38,31 @@ export const updateValue = ( prop, value ) => {
 export const loginUser = (email, password, persist, dispatch) => {
 	return (dispatch) => {
 		dispatch({ type: LOGIN_USER });
-		if (persist){
-			firebase.auth().setPersistence('local')
-			.then (() => {
-				firebase.auth().signInWithEmailAndPassword(email, password)
-				.then( user => loginUserSuccess(dispatch, user))
-				.catch((error) => {
-					console.log(error);
-					if (error.code === 'auth/user-not-found') {
-					Alert.alert(
-						'User Not Found',
-						'Create this user Account?',
-						[
-							{ text: 'Yes', onPress: () => createUser(email, password, dispatch) },
-							{ text: 'No', onPress: () => loginUserFail(dispatch) }
-						]);
-					} else {
-						loginUserFail(dispatch);
-					}
-				});
-			})
-		}
-		else {
-			firebase.auth().signInWithEmailAndPassword(email, password)
-			.then( user => loginUserSuccess(dispatch, user))
-			.catch((error) => {
-				console.log(error);
-				if (error.code === 'auth/user-not-found') {
-				Alert.alert(
-					'User Not Found',
-					'Create this user Account?',
-					[
-						{ text: 'Yes', onPress: () => createUser(email, password, dispatch) },
-						{ text: 'No', onPress: () => loginUserFail(dispatch) }
-					]);
-				} else {
-					loginUserFail(dispatch);
-				}
-			});
-		}
+		firebase.auth().signInWithEmailAndPassword(email, password)
+		.then( (user) => {
+			console.log("persistence is ".concat(persist));
+			if(persist){
+				firebase.auth().setPersistence('local')
+				.then(() => loginUserSuccess(dispatch, user));
+			}
+			else
+				firebase.auth().setPersistence('none')
+				.then(() => loginUserSuccess(dispatch, user));
+		})
+		.catch((error) => {
+			console.log(error);
+			if (error.code === 'auth/user-not-found') {
+			Alert.alert(
+				'User Not Found',
+				'Create this user Account?',
+				[
+					{ text: 'Yes', onPress: () => createUser(email, password, dispatch) },
+					{ text: 'No', onPress: () => loginUserFail(dispatch) }
+				]);
+			} else {
+				loginUserFail(dispatch);
+			}
+		});
 	};
 }
 

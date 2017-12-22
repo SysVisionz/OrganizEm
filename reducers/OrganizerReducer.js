@@ -1,6 +1,6 @@
 const INITIAL_STATE = {
 	contents: {
-		name: '',
+		name: null,
 		dimensions: []},
 	previousContents: [],
 	dimensionSelection: [],

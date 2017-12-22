@@ -9,3 +9,4 @@ export AuthButton from './AuthButton';
 export CheckIfLoggedIn from './CheckIfLoggedIn';
 export * from './InputField';
 export ExpandList from './ExpandList.js';
+export SignOutButton from './SignOutButton';

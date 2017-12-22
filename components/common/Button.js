@@ -1,24 +1,26 @@
 import React from 'react';
 import {Text, TouchableHighlight, TouchableOpacity} from 'react-native';
 
-const Button = ( {onPress, style, children} ) => {
-	const {buttonStyle, textStyle} = styles;
+const Button = ( {onPress, buttonStyle, textStyle, children} ) => {
+	const {thisButtonStyle, thisTextStyle} = styles;
 	return (
-		<TouchableOpacity onPress = {onPress} style={[buttonStyle, style]}>
-			<Text style = {textStyle}>{children}</Text>
+		<TouchableOpacity onPress = {onPress} style={[thisButtonStyle, buttonStyle]}>
+			<Text style = {[thisTextStyle, textStyle]}>{children}</Text>
 		</TouchableOpacity>
 	);
 };
 
 const styles = {
-	textStyle: {
+	thisTextStyle: {
 		color: '#007aff',
 		fontSize: 16,
 		fontWeight:'600',
-		paddingTop: 10,
-		paddingBottom: 10
+		paddingTop: 5,
+		paddingBottom: 5,
+		paddingLeft: 5,
+		paddingRight: 5
 	},
-	buttonStyle: {
+	thisButtonStyle: {
 		alignSelf:'stretch',
 		alignItems:'center',
 		justifyContent:'center',

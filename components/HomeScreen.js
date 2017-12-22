@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Text, Picker, Button } from 'react-native';
-import {Actions } from 'react-native-router-flux';
+import { Text, Picker } from 'react-native';
+import firebase from 'firebase';
+import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { changeSelection, addDimension, deleteEntry, undo } from '../actions';
 import SearchBox from './SearchBox';
 import DimensionsBox from './DimensionsBox';
 import ItemsList from './ItemsList'; 	
-import { Card, CardSection } from './common';
+import { Card, CardSection, Button } from './common';
 
 const styles = {
 	titleStyle: {
@@ -21,12 +22,21 @@ const mapStateToProps = (state) => {
 }
 
 export default connect (mapStateToProps, {}) (class HomeScreen extends Component {
+
 	render() {
 		const {name, description, tags, dimensions} = this.props.contents;
 		return (
 			<Card>
 				<CardSection>
-					<Text>{this.props.contents.name}</Text>
+					<Text style={{fontSize:18, fontWeight:'700', paddingTop: 5, paddingLeft: 10}}>Organizer Name</Text>
+					<Button
+						onPress={() => Actions.organizerSearch()}
+					>
+					Select Organizer
+					</Button>
+
+				</CardSection>
+				<CardSection>
 				</CardSection>
 			</Card>
 		);

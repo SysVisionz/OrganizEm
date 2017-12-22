@@ -1,5 +1,6 @@
 import React from 'react';
-import { Scene, Router, Actions } from 'react-native-router-flux';
+import firebase from 'firebase';
+import { Stack, Scene, Router, Actions } from 'react-native-router-flux';
 import { ReduxLoginForm, CheckIfLoggedIn } from './components/common';
 import { HomeScreen, EditItem, OrganizerSearch, NewOrganizer } from './components';
 
@@ -22,13 +23,18 @@ const RouterComponent = () => {
 						title="Please Login" 
 					/>
 				</Scene>
-				<Scene key="main" >
+				<Scene 
+					key="main"
+				>
 					<Scene
 						key="homeScreen"
 						component={ HomeScreen }
 						title="Organizem"
-						rightTitle="Select Organizer"
-						onRight={() => Actions.organizerSearch()}
+						rightTitle="Sign Out"
+						onRight={() => {
+							firebase.auth().signOut()
+							.then(() => Actions.auth());
+						}}
 					/>
 					<Scene
 						key="organizerSearch"

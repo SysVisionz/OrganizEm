@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Picker, Text } from 'react-native';
+import firebase from 'firebase';
 import { InputField, Card, CardSection, ExpandList } from './common';
 import { updateProp, searchOrganizers, fetchOrganizers } from  '../actions';
+
 
 const mapStateToProps = state => {
 	const {
@@ -51,13 +53,14 @@ export default connect ( mapStateToProps, { updateProp, searchOrganizers, fetchO
 			<Card>
 				<CardSection>
 					<InputField
-						label="Search for Organizer:"
+						label="Title:"
 						placeholder="Organizer Title"
 						onChangeText={this.onTextChanged.bind(this)}
 						value = {text}
 					/>
 				</CardSection>
 				<CardSection>
+					<Text>Dimensions:</Text>
 					<Picker 
 						style={{flex:1}}
 						mode="dropdown"
