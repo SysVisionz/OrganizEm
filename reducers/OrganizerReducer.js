@@ -1,7 +1,15 @@
 const INITIAL_STATE = {
 	contents: {
-		name: null,
-		dimensions: []},
+		name: false,
+		organizerId: '',
+		dimensions: [],
+		description: '',
+		tags: [],
+		items: [],
+		nameLocations: {},
+		tagLocations: {},
+		pulled: [],
+	},
 	previousContents: [],
 	dimensionSelection: [],
 	error: '',
@@ -10,17 +18,10 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
 	switch(action.type){
-		case 'addDimension':
-			previousContents.splice(0,0,contents);
-			if(contents.length < 3)
-				contents.push([]);
-			else
-				return { error: 'Cannot add more than three dimensions to any one Organizer. Create a new Organizer.' };
-			return {...state, previousContents, dimensions, contents};
 		case 'changeDimensionSelection':
 			return {...state, [dimensionSelection[action.payload.dimension]]: action.payload.value, error:''};
 		case 'newOrganizer':
-			return {INITIAL_STATE};
+			return { INITIAL_STATE };
 		case 'editDimension':
 			return {...state, [contents[action.payload.dimension]]: action.payload.value};
 		case 'undo':

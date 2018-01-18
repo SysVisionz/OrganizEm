@@ -1,22 +1,24 @@
 import firebase from 'firebase';
-
+import { compareEntries } from '../components/common';
 
 export const fetchOrganizers = (dispatch) => {
 	const { currentUser } = firebase.auth();
 	return (dispatch) => {
 		firebase.database().ref(`/users/${currentUser.uid}/organizers`)
 		.on('value', snapshot => {
-			dispatch({type: 'fetchOrganizers', payload: snapshot.val() });
+			dispatch({
+				type: 'fetchOrganizers', 
+				payload: {
+					value: snapshot.val()
+				} 
+			});
 		});
 	};
 };
 
-const searchArray = (array, value, exact) => {
-	for (i in array){
-		if (exact && i == value){
-			return true;
-		}
-		else if (!exact && i.indexOf(value) != -1){
+const searchArrayPart = (array, value) => {
+	for (const i in array){
+		if (i.indexOf(value) != -1){
 			return true;
 		}
 	}
@@ -36,7 +38,7 @@ const separateSearch = (searchString) => {
 			oddEven = 1;
 			console.log("not first");
         }
-		for (let i = 0; i < parts.length; i++){
+		for (const i = 0; i < parts.length; i++){
 			if (i % 2 == oddEven){
 				retVals.push(parts[i].trim());
             }
@@ -60,7 +62,7 @@ const validateOrganizer = (organizer, text, dimensions, tags) => {
 		}
 	}
 	for (const tag of tags){
-		if (!searchArray(organizer.tags, tag)){
+		if (!searchArrayPart(organizer.tags, tag)){
 			return false;
 		}
 	}
@@ -75,9 +77,66 @@ export const searchOrganizers = (text, dimensions, tags, organizers) => {
 	}
 	return {
 		type: 'searchOrganizers',
-		payload: organizerList
+		payload: {
+			value: organizerList
+		}
 	};
 };
+
+const inNames = ( searchText, names, nameLocations ) => {
+	let retVals = [];
+	for (const i of names){
+		if (i.indexOf(searchText) != -1){
+			for (const dimension in retVals){
+				if (retVals[dimension].indexOf(tagLocations[tag][dimension] == -1))
+					retVals[dimension].push(tagLocations[tag][dimension]);
+			}
+		}
+	}
+	return retVals;
+}
+
+const inTags = ( searchTags, tags, tagLocations ) => {
+	let retVals = [];
+	for (const tag of searchTags) =>
+		if (tags.indexOf(tag) != -1){
+			for (const dimension in tagLocations[tag]){
+				if (retVals[dimension].indexOf(tagLocations[tag][dimension] == -1))
+					retVals[dimension].push(tagLocations[tag][dimension]);
+			}
+		}
+	}
+	return retVals;
+}
+
+export const itemSearch = (searchText, searchTags, tags, names, tagLocations, nameLocations) => {
+	if (searchText && searchTags[0])
+		return {
+			type: 'visible',
+			payload: {
+				value: compareEntries(inNames(searchText, names, nameLocations), inTags(searchTags, tags, tagLocations))
+			}
+		};
+	else if (searchText)
+		return {
+			type: 'visible',
+			payload: {
+				value: inNames(searchText, names, nameLocations)
+			}
+		};
+	else if (searchTags)
+		return {
+			type: 'visible',
+			payload: {
+				value: inTags(searchTags, tags, tagLocations)
+			}
+		};
+	else {
+		return {
+			type: 'noSearch',
+		};
+	}
+}
 
 export const updateProp = (prop, value) => {
 	return {

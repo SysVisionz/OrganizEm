@@ -1,9 +1,8 @@
 INITIAL_STATE = {
 	text: '',
-	dimensions: 0,
 	tags: [],
-	organizers: [],
-	organizerList: []
+	dimensions: 0,
+	visible: null,
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -11,10 +10,10 @@ export default (state = INITIAL_STATE, action) => {
 	switch (type){
 		case 'updateProp':
 			return { ...state, [payload.prop]: payload.value };
-		case 'searchOrganizers':
-			return { ...state, organizerList: payload.value};
-		case 'fetchOrganizers':
-			return { ...state, organizers: payload.value};
+		case 'search':
+			return { ...state, visible: payload.value};
+		case 'noSearch':
+			return { ...state, visible: null}
 		default: 
 			return state;
 	}

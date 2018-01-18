@@ -26,7 +26,7 @@ const mapStateToProps = state => {
 export default connect ( mapStateToProps, { updateProp, searchOrganizers, fetchOrganizers } ) (class OrganizerSearch extends Component {
 
 	componentWillMount() {
-//		this.props.fetchOrganizers();
+		this.props.fetchOrganizers();
 	}
 
 	onTextChanged(value) {

@@ -1,3 +1,5 @@
+export * from './YesNoModal';
+export * from './OptionsModal';
 export * from './Button';
 export * from './Card';
 export * from './CardSection';
@@ -10,3 +12,4 @@ export CheckIfLoggedIn from './CheckIfLoggedIn';
 export * from './InputField';
 export ExpandList from './ExpandList.js';
 export SignOutButton from './SignOutButton';
+export * from './sysvFunct';

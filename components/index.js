@@ -1,3 +1,4 @@
+export EditOrganizer from './EditOrganizer';
 export OrganizerSearch from './OrganizerSearch';
 export HomeScreen from './HomeScreen';
 export Dimension from './Dimension';

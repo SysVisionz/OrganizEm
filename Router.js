@@ -2,7 +2,7 @@ import React from 'react';
 import firebase from 'firebase';
 import { Stack, Scene, Router, Actions } from 'react-native-router-flux';
 import { ReduxLoginForm, CheckIfLoggedIn } from './components/common';
-import { HomeScreen, EditItem, OrganizerSearch, NewOrganizer } from './components';
+import { HomeScreen, EditItem, OrganizerSearch, NewOrganizer, EditOrganizer} from './components';
 
 const RouterComponent = () => {
 	return (
@@ -45,6 +45,11 @@ const RouterComponent = () => {
 						key="newOrganizer"
 						component={NewOrganizer}
 						title="Create New Organizer"
+					/>
+					<Scene
+						key="editOrganizer"
+						component={EditOrganizer}
+						title="Edit Organizer"
 					/>
 				</Scene>
 			</Scene>
