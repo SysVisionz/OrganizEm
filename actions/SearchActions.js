@@ -98,7 +98,7 @@ const inNames = ( searchText, names, nameLocations ) => {
 
 const inTags = ( searchTags, tags, tagLocations ) => {
 	let retVals = [];
-	for (const tag of searchTags) =>
+	for (const tag of searchTags){
 		if (tags.indexOf(tag) != -1){
 			for (const dimension in tagLocations[tag]){
 				if (retVals[dimension].indexOf(tagLocations[tag][dimension] == -1))

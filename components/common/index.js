@@ -13,3 +13,4 @@ export * from './InputField';
 export ExpandList from './ExpandList.js';
 export SignOutButton from './SignOutButton';
 export * from './sysvFunct';
+export TagInput from './TagInput';

@@ -16,7 +16,7 @@ const styles = {
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 	const { 
 		contents, 
 		dimensionSelection, 
@@ -33,7 +33,7 @@ export default connect (mapStateToProps, {}) (class HomeScreen extends Component
 	
 	state={showModal: false};
 
-	dimensionSelect = () => {
+	dimensionSelect () {
 		const {dimensions, dimensionSelection} = this.props.contents
 		switch (dimensions.length){
 			case 1:
@@ -42,6 +42,8 @@ export default connect (mapStateToProps, {}) (class HomeScreen extends Component
 				return dimensions[dimensionSelection[0]][dimensionSelection[1]];
 			case 3:
 				return dimensions[dimensionSelection[0]][dimensionSelection[1]][dimensionSelection[2]];
+			default:
+				return 'error: no dimensions found.';
 		}
 	}
 
@@ -85,7 +87,7 @@ export default connect (mapStateToProps, {}) (class HomeScreen extends Component
 					...
 					</Button>
 				</CardSection>
-				<CardSection>
+{/*				<CardSection>
 					<Text>Only show dimensions containing:</Text>
 					<InputField
 						placeholder="Item"
@@ -95,9 +97,9 @@ export default connect (mapStateToProps, {}) (class HomeScreen extends Component
 						label="Item Tags"
 						source={tags}
 					/>
-				</CardSection>
+				</CardSection>*/}
 				<CardSection>
-					<ItemsList contents={dimensionSelect()} />
+					<ItemsList contents={this.dimensionSelect} />
 				</CardSection>
 				<OptionsModal inputArray={buttonArray} visible={this.state.showModal}>Actions</OptionsModal>
 			</Card>

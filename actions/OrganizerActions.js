@@ -8,12 +8,13 @@ export const openOrganizem = dispatch => {
 		.on('value', snapshot => {
 			firebase.ref(`organizers/${snapshot.val()}/`)
 			.on('value', snapshot => {
-				dispatch(
-					type: 'fetchOrganizer'
-					payload: snapshot.val();
-				);
+				dispatch({
+					type: 'fetchOrganizer',
+					payload: snapshot.val()
+				});
 			});
 		});
+	}
 }
 
 export const newOrganizer = (name, dimensions, description, tags, dispatch) => {
